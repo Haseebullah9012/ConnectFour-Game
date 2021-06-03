@@ -1,49 +1,48 @@
 #include <iostream>
 using namespace std;
 
-void docs();
+//removed the Class 
+//changed Function names
+//Change the Variable names, and Loop-control names
 
-class game
-{
-	public:
-		char arr[7][7];
-		void board(char [7][7]);
-		int check(char [7][7], int);
-		int draw(char [7][7]);
-};
+void Docs();
+void Board(char [7][7]);
+int over(char [7][7], int);
+int draw(char [7][7]);
+int r,c; //For Loop-controls Row & Column
 
 int main()
 {
 	int a,b;
-	game g;
-
-	docs();
-	for (int i=0; i<7; i++) {
+	char board[7][7];
+	
+	Docs();
+	for (r=0; r<7; r++) {
 		cout << "\t";
-		for (int j=0; j<7; j++) {
-			g.arr[i][j] = '*'; //Initialize the whole Board
-			cout << g.arr[i][j] << " ";
+		for (c=0; c<7; c++) {
+			board[r][c] = '*'; //Initialize the whole Board
+			cout << board[r][c] << " ";
 		}
 		cout << endl;
 	}
 	cout << endl;
 	
 	while (true) {	
+		
 		cout << "Player 1's Turn: ";
 	error1:
 		cin >> a >> b;
 		
-		if (g.arr[a][b] == '*') {
+		if (board[a][b] == '*') {
+			board[a][b] = 'X';
+			Board(board);
 			
-			g.arr[a][b] = 'X';
-			g.board(g.arr);
-			
-			if (g.check(g.arr, 'X') == true) { 
+			if (over(board, 'X') == true) { 
 				cout << "Player 1 Won! \n\n";
 				break;
 			}
 			
-			if (g.draw(g.arr) == true) {
+			if (draw(board) == true) {
 				cout << "Its a Draw! \n\n";
 				break;
 			}
@@ -58,16 +57,16 @@ int main()
 	error2:
 		cin >> a >> b;
 		
-		if (g.arr[a][b] == '*') {
-			g.arr[a][b] = 'O';
-			g.board(g.arr);
+		if (board[a][b] == '*') {
+			board[a][b] = 'O';
+			Board(board);
 			
-			if (g.check(g.arr, 'O') == true) { 
+			if (over(board, 'O') == true) { 
 				cout << "Player 2 Won! \n\n";
 				break;
 			}
 			
-			if (g.draw(g.arr) == true) {
+			if (draw(board) == true) {
 				cout << "Its a Draw! \n\n";
 				break;
 			}
@@ -81,7 +80,7 @@ int main()
 	return 0;
 }
 
-void docs() 		
+void Docs() 		
 {
 	cout << endl
 		<< "Welcome to the Connect-4 Board-Game. A Two-Player Turn-based Game. \n"
@@ -90,48 +89,49 @@ void docs()
 		<< endl;
 
 	cout << "Pick the Specified Place according to the Index of the Row and Column. \n"
-		<< "The First Player to Occupy any of the Three consecutive Places, would Win. \n"
+		<< "The First Player to Occupy any of the Four consecutive Places, would Win. \n"
 		<< "You can Occupy either Horizontally, Vertically, or Diagonally. \n" 
 		<< "The Override is not Allowed. \n"
 		<< endl;
 }		
 
-void game::board(char arr[7][7])
+void Board(char board[7][7])
 {
 	cout << endl;
-	for (int i=0; i<7; i++) {
+	for (r=0; r<7; r++) {
 		cout << "\t";
-		for (int j=0; j<7; j++)
-			cout << arr[i][j] << " ";
+		for (c=0; c<7; c++)
+			cout << board[r][c] << " ";
 		cout << endl;
 	}
 	cout << endl << endl;
 }
 
-int game::check(char arr[7][7], int p)
+int over(char board[7][7], int p)
 {
-	for (int i=0; i<7; i++) {
-		
-		for (int j=0; j<7; j++) {
+	for (r=0; r<7; r++) {
+		for (c=0; c<7; c++) {
 			
-			if (arr[i][j] == p && arr[i][j+1] == p && arr[i][j+2] == p && arr[i][j+3] == p)
+			if (board[r][c] == p && board[r][c+1] == p && board[r][c+2] == p && board[r][c+3] == p)
 				return true; //Horizonatlly
-			else if (arr[i][j] == p && arr[i + 1][j] == p && arr[i + 2][j] == p && arr[i + 3][j] == p)
+			
+			else if (board[r][c] == p && board[r + 1][c] == p && board[r + 2][c] == p && board[r + 3][c] == p)
 				return true; //Vertically
-			else if (arr[i][j] == p && arr[i + 1][j + 1] == p && arr[i + 2][j + 2] == p && arr[i + 3][j + 3] == p)
+			
+			else if (board[r][c] == p && board[r + 1][c + 1] == p && board[r + 2][c + 2] == p && board[r + 3][c + 3] == p)
 				return true; //Diagonally-Right
-			else if (arr[i][j] == p && arr[i + 1][j - 1] == p && arr[i + 2][j - 2] == p && arr[i + 3][j - 3] == p)
+			else if (board[r][c] == p && board[r + 1][c - 1] == p && board[r + 2][c - 2] == p && board[r + 3][c - 3] == p)
 				return true; //Diagonally-Left
 		}
 	}
 	return false;
 }
 
-int game::draw(char arr[7][7])
+int draw(char board[7][7])
 {
-	for (int i=0; i<7; i++) {
-		for (int j=0; j<7; j++) {
-			if (arr[i][j] == '*')
+	for (int r=0; r<7; r++) {
+		for (int c=0; c<7; c++) {
+			if (board[r][c] == '*')
 				return false;
 		}
 	}	
