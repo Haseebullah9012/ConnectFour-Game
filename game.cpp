@@ -80,12 +80,20 @@ void turn()
 {
 	cin >> a >> b;
 
-	if (board[a][b] == emp) {
-		board[a][b] = player;
-		Board();
+	if (a>=1 && a<=rows && b>=1 && b<=cols) {
+		
+		if (board[a-1][b-1] == emp) {
+			board[a-1][b-1] = player;
+			Board();
+		}
+		else {
+			cout << "Its already Occupied, Pick Somewhere else: ";
+			turn();
+		}
 	}
 	else {
-		cout << "Its already Occupied, Pick Somewhere else: ";
+		cout << "Oops! Its Outside the Board. \n"
+			<< "Pick Again, (Rows 1 to 7) & (Columns 1 to 7): ";
 		turn();
 	}
 }
