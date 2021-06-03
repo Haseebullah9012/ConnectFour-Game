@@ -18,44 +18,39 @@ int main()
 {	
 	Docs();
 	
+	//Initialize the whole Board
 	for (r=0; r<rows; r++) {
 		cout << "\t";
 		for (c=0; c<cols; c++) {
-			board[r][c] = emp; //Initialize the whole Board
+			board[r][c] = emp;
 			cout << board[r][c] << " ";
 		}
 		cout << endl;
 	}
 	cout << endl;
 	
+	int p = 1; //Player Number (First-Turn = Player 1)
+		
 	while (true) {
 		
-		cout << "Player 1's Turn: ";
-		player = 'X';
+		if(p%2 == 1)
+			player = 'X', p = 1;
+		else
+			player = 'O', p = 2;
 		
+		cout << "Player " << p << "'s Turn: ";
 		turn();
-		if (over()) {
-				cout << "Player 1 Won! \n\n";
-				break;
-			}
-		if (draw()) {
-				cout << "Its a Draw! \n\n";
-				break;
-			}
-
-
-		cout << "Player 2's Turn: ";
-		player = 'O';
 		
-		turn();
 		if (over()) {
-			cout << "Player 2 Won! \n\n";
+			cout << "Player " << p << " Won! \n\n";
 			break;
-		}	
+		}
 		if (draw()) {
 			cout << "Its a Draw! \n\n";
 			break;
 		}
+
+		p++;
 	}
 	
 	return 0;
