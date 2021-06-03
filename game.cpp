@@ -1,14 +1,16 @@
 #include <iostream>
 using namespace std;
 
-void Docs();
-void turn();
-void Board(char [7][7]); //Print the Whole Board
-int over(char [7][7]); //Check if anybody Won
-int draw(char [7][7]); //Check if the Board fills-out
+void Docs(); //Print the "How to Play" Docs
+void turn(); //Player's Turn
+void Board(); //Print the Whole Board
+int over(); //Check if anybody Won
+int draw(); //Check if the Board fills-out
+
+char board[7][7];
+int rows = 7, cols = 7; //Total Rows and Columns of the Board
 
 int a,b; //Player Inputs
-char board[7][7];
 int r,c; //For Loop-controls Row & Column
 char player, emp = '-'; //Player's & Empty Board's Symbol
 
@@ -16,9 +18,9 @@ int main()
 {	
 	Docs();
 	
-	for (r=0; r<7; r++) {
+	for (r=0; r<rows; r++) {
 		cout << "\t";
-		for (c=0; c<7; c++) {
+		for (c=0; c<cols; c++) {
 			board[r][c] = emp; //Initialize the whole Board
 			cout << board[r][c] << " ";
 		}
@@ -26,17 +28,17 @@ int main()
 	}
 	cout << endl;
 	
-	while (true) {	
+	while (true) {
 		
 		cout << "Player 1's Turn: ";
 		player = 'X';
 		
 		turn();
-		if (over(board)) {
+		if (over()) {
 				cout << "Player 1 Won! \n\n";
 				break;
 			}
-		if (draw(board)) {
+		if (draw()) {
 				cout << "Its a Draw! \n\n";
 				break;
 			}
@@ -46,11 +48,11 @@ int main()
 		player = 'O';
 		
 		turn();
-		if (over(board)) {
+		if (over()) {
 			cout << "Player 2 Won! \n\n";
 			break;
 		}	
-		if (draw(board)) {
+		if (draw()) {
 			cout << "Its a Draw! \n\n";
 			break;
 		}
@@ -62,7 +64,7 @@ int main()
 void Docs()
 {
 	cout << endl
-		<< "Welcome to the Connect-4 Board-Game. A Two-Player Turn-based Game. \n"
+		<< "Welcome to the Connect-Four Board-Game. A Two-Player Turn-based Game. \n"
 		<< " The Player 1 is assigned 'X'. \n"
 		<< " The Player 2 is assigned 'O'. \n"
 		<< endl;
@@ -80,7 +82,7 @@ void turn()
 
 	if (board[a][b] == emp) {
 		board[a][b] = player;
-		Board(board);
+		Board();
 	}
 	else {
 		cout << "Its already Occupied, Pick Somewhere else: ";
@@ -88,22 +90,22 @@ void turn()
 	}
 }
 
-void Board(char board[7][7])
+void Board()
 {
 	cout << endl;
-	for (r=0; r<7; r++) {
+	for (r=0; r<rows; r++) {
 		cout << "\t";
-		for (c=0; c<7; c++)
+		for (c=0; c<cols; c++)
 			cout << board[r][c] << " ";
 		cout << endl;
 	}
 	cout << endl << endl;
 }
 
-int over(char board[7][7])
+int over()
 {
-	for (r=0; r<7; r++) {
-		for (c=0; c<7; c++) {
+	for (r=0; r<rows; r++) {
+		for (c=0; c<cols; c++) {
 			
 			if (board[r][c] == player && board[r][c+1] == player && board[r][c+2] == player && board[r][c+3] == player)
 				return true; //Horizonatlly
@@ -120,10 +122,10 @@ int over(char board[7][7])
 	return false;
 }
 
-int draw(char board[7][7])
+int draw()
 {
-	for (int r=0; r<7; r++) {
-		for (int c=0; c<7; c++) {
+	for (int r=0; r<rows; r++) {
+		for (int c=0; c<cols; c++) {
 			if (board[r][c] == emp) //false if even one space is empty
 				return false;
 		}
