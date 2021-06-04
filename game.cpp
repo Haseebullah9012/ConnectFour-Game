@@ -3,14 +3,18 @@ using namespace std;
 
 void Docs(); //Print the "How to Play" Docs
 void BoardSize(); //To define the Board-Size
+void Difficulty(); //To define the Difficulty of the Game
 void turn(); //Player's Turn
 void Board(); //Print the Whole Board
-int over(); //Check if anybody Won
+int over(); //Check if anybody Won and Completed the Konnect-Goal
 int draw(); //Check if the Board fills-out
 
 char board[20][20];
 int rows = 7, cols = 7 ; //Total Default Rows and Columns of the Board
 int r,c; //For Loop-controls Row & Column
+
+int konnect = 4; //The Default Konnect-Number Goal of the Game
+int k; // For Loop-control Konnect
 
 int a,b; //Player Inputs
 char player, emp = '-'; //Player's & Empty Board's Symbol
@@ -19,8 +23,6 @@ int main()
 {	
 	Docs();
 	
-	BoardSize();
-
 	//Initialize the whole Board
 	for (r=0; r<rows; r++) {
 		cout << "\t";
@@ -67,19 +69,24 @@ void Docs()
 		<< " The Player 2 is assigned 'O'. \n"
 		<< endl;
 
-	cout << "Pick the Specified Place according to the Index of the Row and Column. \n"
-		<< "The First Player to Occupy any of the Four consecutive Places, would Win. \n"
+	BoardSize();
+	Difficulty();
+
+	cout << "The First Player to Occupy any of the " << konnect << " consecutive Places, would Win. \n"
 		<< "You can Occupy either Horizontally, Vertically, or Diagonally. \n" 
 		<< "The Override is not Allowed. \n"
 		<< endl;
+
+	cout << "Pick the Specified Place according to the Index of the Row and Column. \n"
+		<< endl;
 }		
 
-void BoardSize() 
+void BoardSize()
 {
 	char board_size;
 	int size_sm = 6, size_md = 8, size_lg = 10; //Predefined Sizes
 	
-	cout << "Enter the Board Size (s:small, m:medium, l:large, c:custom): ";
+	cout << "Choose the Board-Size (s:small, m:medium, l:large, c:custom): ";
 	cin >> board_size;
 
 	if (board_size == 's' || board_size == 'S') {
@@ -111,6 +118,49 @@ void BoardSize()
 		board_size = 'm'; //Make it Default-Size, just to make sure of no Errors
 		BoardSize();
 	}
+	
+	cout << endl;
+}
+
+void Difficulty()
+{
+	char difficulty;
+	int easy = 3, inter = 4, hard = 5; //Predefined Difficulties
+	
+	cout << "Choose the Game-Difficulty (e:easy, i:intermediate, h:hard, c:custom): ";
+	cin >> difficulty;
+
+	if (difficulty == 'e' || difficulty == 'E') {
+		konnect = easy;
+	}
+	else if (difficulty == 'i' || difficulty == 'I') {
+		konnect = inter;
+	}
+	else if (difficulty == 'h' || difficulty == 'H') {
+		konnect = hard;
+	}
+	else if (difficulty == 'c' || difficulty == 'C') {
+		cout << "Enter the Custom Konnect-Number Goal of the Game: ";
+		cin >> konnect;
+		
+		if (!(konnect>=2)) {
+			cout << "Oops! It's too Easy to be a Game. \n\n";
+			konnect = 4; //Make it Default-Size, just to make sure of no Errors
+			Difficulty();
+		}
+		else if (!(konnect<=15)) {
+			cout << "Oops! It's too Difficult to be a Game. \n\n";
+			konnect = 4; //Make it Default-Size, just to make sure of no Errors
+			Difficulty();
+		}
+	}
+	else {
+		cout << "Please Enter the legal Difficulty, or Choose Custom! \n\n";
+		difficulty = 'I'; //Make it Default-Size, just to make sure of no Errors
+		Difficulty();
+	}
+	
+	cout << endl;
 }
 
 void turn()
@@ -153,18 +203,36 @@ int over()
 	for (r=0; r<rows; r++) {
 		for (c=0; c<cols; c++) {
 			
-			if (board[r][c] == player && board[r][c+1] == player && board[r][c+2] == player && board[r][c+3] == player)
+			for(k=0; k<=konnect; k++) {
+				if (board[r][c+k] != player)
+					break;
+			}
+			if(k==konnect)
 				return true; //Horizonatlly
 			
-			else if (board[r][c] == player && board[r + 1][c] == player && board[r + 2][c] == player && board[r + 3][c] == player)
+			for(k=0; k<=konnect; k++)
+				if (board[r+k][c] != player)
+					break;
+
+			if(k==konnect)
 				return true; //Vertically
 			
-			else if (board[r][c] == player && board[r + 1][c + 1] == player && board[r + 2][c + 2] == player && board[r + 3][c + 3] == player)
+			for(k=0; k<=konnect; k++)
+				if (board[r+k][c+k] != player)
+					break;
+			
+			if(k==konnect)
 				return true; //Diagonally-Right
-			else if (board[r][c] == player && board[r + 1][c - 1] == player && board[r + 2][c - 2] == player && board[r + 3][c - 3] == player)
+
+			for(k=0; k<=konnect; k++)
+				if (board[r+k][c-k] != player)
+					break;
+				
+			if(k==konnect)
 				return true; //Diagonally-Left
 		}
 	}
+	
 	return false;
 }
 
