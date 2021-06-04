@@ -2,22 +2,25 @@
 using namespace std;
 
 void Docs(); //Print the "How to Play" Docs
+void BoardSize(); //To define the Board-Size
 void turn(); //Player's Turn
 void Board(); //Print the Whole Board
 int over(); //Check if anybody Won
 int draw(); //Check if the Board fills-out
 
-char board[7][7];
-int rows = 7, cols = 7; //Total Rows and Columns of the Board
+char board[20][20];
+int rows = 7, cols = 7 ; //Total Default Rows and Columns of the Board
+int r,c; //For Loop-controls Row & Column
 
 int a,b; //Player Inputs
-int r,c; //For Loop-controls Row & Column
 char player, emp = '-'; //Player's & Empty Board's Symbol
 
 int main()
 {	
 	Docs();
 	
+	BoardSize();
+
 	//Initialize the whole Board
 	for (r=0; r<rows; r++) {
 		cout << "\t";
@@ -71,6 +74,45 @@ void Docs()
 		<< endl;
 }		
 
+void BoardSize() 
+{
+	char board_size;
+	int size_sm = 6, size_md = 8, size_lg = 10; //Predefined Sizes
+	
+	cout << "Enter the Board Size (s:small, m:medium, l:large, c:custom): ";
+	cin >> board_size;
+
+	if (board_size == 's' || board_size == 'S') {
+		rows = size_sm, cols = size_sm; 
+	}
+	else if (board_size == 'm' || board_size == 'M') {
+		rows = size_md, cols = size_md; 
+	}
+	else if (board_size == 'l' || board_size == 'L') {
+		rows = size_lg, cols = size_lg;
+	}
+	else if (board_size == 'c' || board_size == 'C') {
+		cout << "Enter the Custom Total Rows and Columns of the Board: ";
+		cin >> rows >> cols;
+		
+		if (!(rows >=1 && cols >=1)) {
+			cout << "Oops! It's too Small to be a Board. \n\n";
+			rows = 7, cols = 7; //Make it Default-Size, just to make sure of no Errors
+			BoardSize();
+		}
+		else if (!(rows <=20 && cols <=20)) {
+			cout << "Oops! It's too Large to be a Board. \n\n";
+			rows = 7, cols = 7; //Make it Default-Size, just to make sure of no Errors
+			BoardSize();
+		}
+	}
+	else {
+		cout << "Please Enter the legal Board-Size, or Choose Custom! \n\n";
+		board_size = 'm'; //Make it Default-Size, just to make sure of no Errors
+		BoardSize();
+	}
+}
+
 void turn()
 {
 	cin >> a >> b;
@@ -88,7 +130,8 @@ void turn()
 	}
 	else {
 		cout << "Oops! Its Outside the Board. \n"
-			<< "Pick Again, (Rows 1 to 7) & (Columns 1 to 7): ";
+			<< "Pick Again, (Rows 1 to " << rows << ") & "
+						<< "(Columns 1 to " << cols << "): ";
 		turn();
 	}
 }
