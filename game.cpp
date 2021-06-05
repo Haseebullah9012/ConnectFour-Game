@@ -1,9 +1,11 @@
 #include <iostream>
 using namespace std;
 
-void Docs(); //Print the "How to Play" Docs
 void BoardSize(); //To define the Board-Size
 void Difficulty(); //To define the Difficulty of the Game
+void Docs(); //Print the "How to Play" Docs
+
+void Play(); //The Main Game Sequence
 void turn(); //Player's Turn
 void Board(); //Print the Whole Board
 int over(); //Check if anybody Won and Completed the Konnect-Goal
@@ -18,68 +20,33 @@ int k; // For Loop-control Konnect
 
 int a,b; //Player Inputs
 char player, emp = '-'; //Player's & Empty Board's Symbol
-
+int p = 1; //Player Number (First-Turn = Player 1)
+	
 int main()
 {	
-	Docs();
-	
-	//Initialize the whole Board
-	for (r=0; r<rows; r++) {
-		cout << "\t";
-		for (c=0; c<cols; c++) {
-			board[r][c] = emp;
-			cout << board[r][c] << " ";
-		}
-		cout << endl;
-	}
-	cout << endl;
-	
-	int p = 1; //Player Number (First-Turn = Player 1)
-		
-	while (true) {
-		
-		if(p%2 == 1)
-			player = 'X', p = 1;
-		else
-			player = 'O', p = 2;
-		
-		cout << "Player " << p << "'s Turn: ";
-		turn();
-		
-		if (over()) {
-			cout << "Player " << p << " Won! \n\n";
-			break;
-		}
-		if (draw()) {
-			cout << "Its a Draw! \n\n";
-			break;
-		}
-
-		p++;
-	}
-	
-	return 0;
-}
-
-void Docs()
-{
 	cout << endl
 		<< "Welcome to the Connect-Four Board-Game. A Two-Player Turn-based Game. \n"
 		<< " The Player 1 is assigned 'X'. \n"
 		<< " The Player 2 is assigned 'O'. \n"
 		<< endl;
 
-	BoardSize();
-	Difficulty();
+	char playAgain;
+	
+	do {
+		BoardSize();
+		Difficulty();
+		Docs();
+		Play();
 
-	cout << "The First Player to Occupy any of the " << konnect << " consecutive Places, would Win. \n"
-		<< "You can Occupy either Horizontally, Vertically, or Diagonally. \n" 
-		<< "The Override is not Allowed. \n"
-		<< endl;
-
-	cout << "Pick the Specified Place according to the Index of the Row and Column. \n"
-		<< endl;
-}		
+		cout << "Do You Want to Play Again (Y/N): ";
+		cin >> playAgain;
+		p++; //The Next Player goes for the First Turn
+		cout << endl;
+	}
+	while(playAgain == 'y' || playAgain == 'Y');
+	
+	return 0;
+}
 
 void BoardSize()
 {
@@ -161,6 +128,54 @@ void Difficulty()
 	}
 	
 	cout << endl;
+}
+
+void Docs()
+{
+	cout << "The First Player to Occupy any of the " << konnect << " consecutive Places, would Win. \n"
+		<< "You can Occupy either Horizontally, Vertically, or Diagonally. \n" 
+		<< "The Override is not Allowed. \n"
+		<< endl;
+
+	cout << "Pick the Specified Place according to the Index of the Row and Column. \n"
+		<< endl;
+
+	//Initialize the whole Board
+	for (r=0; r<rows; r++) {
+		cout << "\t";
+		for (c=0; c<cols; c++) {
+			board[r][c] = emp;
+			cout << board[r][c] << " ";
+		}
+		cout << endl;
+	}
+	cout << endl;
+}		
+
+
+void Play()
+{
+	while (true) {
+		
+		if(p%2 == 1)
+			player = 'X', p = 1;
+		else
+			player = 'O', p = 2;
+		
+		cout << "Player " << p << "'s Turn: ";
+		turn();
+		
+		if (over()) {
+			cout << "Player " << p << " Won! \n\n";
+			break;
+		}
+		if (draw()) {
+			cout << "Its a Draw! \n\n";
+			break;
+		}
+
+		p++;
+	}
 }
 
 void turn()
