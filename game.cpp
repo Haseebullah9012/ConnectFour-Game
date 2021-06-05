@@ -25,23 +25,35 @@ int p = 1; //Player Number (First-Turn = Player 1)
 int main()
 {	
 	cout << endl
-		<< "Welcome to the Connect-Four Board-Game. A Two-Player Turn-based Game. \n"
+		<< "Welcome to the Konnect-Board-Game. Its a Two-Player Turn-based Game. \n"
+		<< "It is Advised to Consult the Readme File, before Playing the Game. \n"
 		<< " The Player 1 is assigned 'X'. \n"
 		<< " The Player 2 is assigned 'O'. \n"
 		<< endl;
 
 	char playAgain;
-	
 	do {
-		BoardSize();
-		Difficulty();
+		
+		char chooseAgain;
+		do {
+			BoardSize();
+			Difficulty();
+			
+			cout << "The Board-Size is " << rows << "x" << cols << ", and "
+				<< "The Konnect-Goal is " << konnect << ". \n"
+				<< "Is it OK (Y/N): ";
+			cin >> chooseAgain;
+			cout << endl << endl << endl;
+		}
+		while(chooseAgain == 'n' || chooseAgain == 'N');
+
 		Docs();
 		Play();
 
 		cout << "Do You Want to Play Again (Y/N): ";
 		cin >> playAgain;
 		p++; //The Next Player goes for the First Turn
-		cout << endl;
+		cout << endl << endl << endl;
 	}
 	while(playAgain == 'y' || playAgain == 'Y');
 	
@@ -133,19 +145,20 @@ void Difficulty()
 		konnect = 4;
 	}
 	
+	if(konnect > rows && konnect > cols) {
+		cout << "Oops! It isn't Possible to Complete this Goal on that Small Board Size. \n";
+		cout << "Choose Again! \n\n";
+		Difficulty();
+	}
+
 	cout << endl;
 }
 
 void Docs()
 {
-	cout << "The First Player to Occupy any of the " << konnect << " consecutive Places, would Win. \n"
-		<< "You can Occupy either Horizontally, Vertically, or Diagonally. \n" 
-		<< "The Override is not Allowed. \n"
-		<< endl;
-
-	cout << "Pick the Specified Place according to the Index of the Row and Column. \n"
-		<< endl;
-
+	cout << "So, Lets Begin! \n\n";
+	cout << "Pick the Specified Place according to the Index of the Row and Column. \n\n";
+	
 	//Initialize the whole Board
 	for (r=0; r<rows; r++) {
 		cout << "\t";

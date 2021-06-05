@@ -9,7 +9,10 @@ A Simple Turn-based Board Game.
   2. After that, Enter the **Game Difficulty** from the predefined Difficulties: _Easy, Intermediate, Hard, or even Custom_. 
      Yes, You can also enter your own Custom Difficulty, by entering the _Total Konnect-Goal_ Number. 
      
-     After Defining the Board-Size and Game-Difficulty Goal. You are Ready to Play. 
+     After Defining the Board-Size and the Game-Difficulty Goal, You can also reconfigure them in case You want.
+     
+     
+     Now, You are Ready to Play. 
      
   3. On your Turn, Enter the Index (Row and Coloumn, seperated by Space) on the given Board to mark on that Place. 
    
