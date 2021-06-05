@@ -11,7 +11,7 @@ void Board(); //Print the Whole Board
 int over(); //Check if anybody Won and Completed the Konnect-Goal
 int draw(); //Check if the Board fills-out
 
-char board[20][20];
+char board[20][20]; //The Game Board
 int rows = 7, cols = 7 ; //Total Default Rows and Columns of the Board
 int r,c; //For Loop-controls Row & Column
 
@@ -50,40 +50,43 @@ int main()
 
 void BoardSize()
 {
-	char board_size;
+	char board_size = 'M'; //Default
 	int size_sm = 6, size_md = 8, size_lg = 10; //Predefined Sizes
 	
 	cout << "Choose the Board-Size (s:small, m:medium, l:large, c:custom): ";
 	cin >> board_size;
 
-	if (board_size == 's' || board_size == 'S') {
+	if (board_size == 's' || board_size == 'S')
 		rows = size_sm, cols = size_sm; 
-	}
-	else if (board_size == 'm' || board_size == 'M') {
+	else if (board_size == 'm' || board_size == 'M')
 		rows = size_md, cols = size_md; 
-	}
-	else if (board_size == 'l' || board_size == 'L') {
+	else if (board_size == 'l' || board_size == 'L')
 		rows = size_lg, cols = size_lg;
-	}
+	
 	else if (board_size == 'c' || board_size == 'C') {
 		cout << "Enter the Custom Total Rows and Columns of the Board: ";
 		cin >> rows >> cols;
 		
-		if (!(rows >=1 && cols >=1)) {
+		if (cin.fail()) {
+			cin.clear();cin.ignore();
+			cout << "Oops! Its not the legal Row-Column Numbers. \n\n";
+			cout << "Again, ";
+			BoardSize();
+		}
+		else if (!(rows >=2 && cols >=2)) {
 			cout << "Oops! It's too Small to be a Board. \n\n";
-			rows = 7, cols = 7; //Make it Default-Size, just to make sure of no Errors
+			cout << "Again, ";
 			BoardSize();
 		}
 		else if (!(rows <=20 && cols <=20)) {
 			cout << "Oops! It's too Large to be a Board. \n\n";
-			rows = 7, cols = 7; //Make it Default-Size, just to make sure of no Errors
+			cout << "Again, ";
 			BoardSize();
 		}
 	}
 	else {
-		cout << "Please Enter the legal Board-Size, or Choose Custom! \n\n";
-		board_size = 'm'; //Make it Default-Size, just to make sure of no Errors
-		BoardSize();
+		cout << "The Board-Size is Set to Default 7x7. \n";
+		rows = 7, cols = 7;
 	}
 	
 	cout << endl;
@@ -91,40 +94,43 @@ void BoardSize()
 
 void Difficulty()
 {
-	char difficulty;
-	int easy = 3, inter = 4, hard = 5; //Predefined Difficulties
+	char difficulty = 'I'; //Default
+	int easy = 3, inter = 5, hard = 6; //Predefined Difficulties
 	
 	cout << "Choose the Game-Difficulty (e:easy, i:intermediate, h:hard, c:custom): ";
 	cin >> difficulty;
 
-	if (difficulty == 'e' || difficulty == 'E') {
+	if (difficulty == 'e' || difficulty == 'E')
 		konnect = easy;
-	}
-	else if (difficulty == 'i' || difficulty == 'I') {
+	else if (difficulty == 'i' || difficulty == 'I')
 		konnect = inter;
-	}
-	else if (difficulty == 'h' || difficulty == 'H') {
+	else if (difficulty == 'h' || difficulty == 'H')
 		konnect = hard;
-	}
+	
 	else if (difficulty == 'c' || difficulty == 'C') {
 		cout << "Enter the Custom Konnect-Number Goal of the Game: ";
 		cin >> konnect;
 		
-		if (!(konnect>=2)) {
-			cout << "Oops! It's too Easy to be a Game. \n\n";
-			konnect = 4; //Make it Default-Size, just to make sure of no Errors
+		if (cin.fail()) {
+			cin.clear(); cin.ignore();
+			cout << "Oops! Its not the legal Konnect-Goal Number. \n\n";
+			cout << "Again, ";
 			Difficulty();
 		}
-		else if (!(konnect<=15)) {
+		else if (!(konnect>=2)) {
+			cout << "Oops! It's too Easy to be a Game. \n\n";
+			cout << "Again, ";
+			Difficulty();
+		}
+		else if (!(konnect<=20)) {
 			cout << "Oops! It's too Difficult to be a Game. \n\n";
-			konnect = 4; //Make it Default-Size, just to make sure of no Errors
+			cout << "Again, ";
 			Difficulty();
 		}
 	}
 	else {
-		cout << "Please Enter the legal Difficulty, or Choose Custom! \n\n";
-		difficulty = 'I'; //Make it Default-Size, just to make sure of no Errors
-		Difficulty();
+		cout << "The Konnect-Goal Difficulty is Set to Default 4. \n";
+		konnect = 4;
 	}
 	
 	cout << endl;
@@ -181,8 +187,15 @@ void Play()
 void turn()
 {
 	cin >> a >> b;
-
-	if (a>=1 && a<=rows && b>=1 && b<=cols) {
+	
+	if (cin.fail()) {
+		cin.clear(); cin.ignore();
+		cout << "Oops! Its not Legal. \n"
+			<< "Pick Again, (Rows 1 to " << rows << ") & "
+						<< "(Columns 1 to " << cols << "): ";
+		turn();
+	}
+	else if (a>=1 && a<=rows && b>=1 && b<=cols) {
 		
 		if (board[a-1][b-1] == emp) {
 			board[a-1][b-1] = player;
@@ -218,31 +231,27 @@ int over()
 	for (r=0; r<rows; r++) {
 		for (c=0; c<cols; c++) {
 			
-			for(k=0; k<=konnect; k++) {
+			for(k=0; k<=konnect; k++)
 				if (board[r][c+k] != player)
 					break;
-			}
 			if(k==konnect)
 				return true; //Horizonatlly
 			
 			for(k=0; k<=konnect; k++)
 				if (board[r+k][c] != player)
 					break;
-
 			if(k==konnect)
 				return true; //Vertically
 			
 			for(k=0; k<=konnect; k++)
 				if (board[r+k][c+k] != player)
 					break;
-			
 			if(k==konnect)
 				return true; //Diagonally-Right
 
 			for(k=0; k<=konnect; k++)
 				if (board[r+k][c-k] != player)
 					break;
-				
 			if(k==konnect)
 				return true; //Diagonally-Left
 		}
@@ -253,8 +262,8 @@ int over()
 
 int draw()
 {
-	for (int r=0; r<rows; r++) {
-		for (int c=0; c<cols; c++) {
+	for (r=0; r<rows; r++) {
+		for (c=0; c<cols; c++) {
 			if (board[r][c] == emp) //false if even one space is empty
 				return false;
 		}

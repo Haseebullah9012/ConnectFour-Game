@@ -7,7 +7,7 @@ A Simple Turn-based Board Game.
      Yes, You can also enter your own Custom Size, by entering the _Total Rows and Columns_ of the Board. 
   
   2. After that, Enter the **Game Difficulty** from the predefined Difficulties: _Easy, Intermediate, Hard, or even Custom_. 
-     Yes, You can also enter your own Custom Difficulty, by entering the _Total Konnect-Goal Number_ of the Game. 
+     Yes, You can also enter your own Custom Difficulty, by entering the _Total Konnect-Goal_ Number. 
      
      After Defining the Board-Size and Game-Difficulty Goal. You are Ready to Play. 
      
@@ -23,7 +23,9 @@ A Simple Turn-based Board Game.
 #### Note:
   * The **Override** is not Allowed. 
   * The **Index** starts from 1. First Enter the Row and then Enter the Column, followed with a Space. 
-  * The given **Predefined Board Sizes** are, Small:6x6, Medium:8x8, Large:10x10. 
-  * The given **Predefined Konnect Goals** are, Easy:3, Intermediate:4, Hard:5. 
+  * The given **Predefined Board Sizes** are, Small:6x6, Medium:8x8, Large:10x10, Default:7x7. 
+  * The given **Predefined Konnect Goals** are, Easy:3, Intermediate:5, Hard:6, Default:4. 
+  * The Rnage of **Custom Row-Column** can be 2x2 to 20x20.
+  * The Range of **Custom Konnect Goal** can be 2 to 20. 
   * Its a **2-Player Game**. However, the Option of Playing with CPU is not yet added. 
 
