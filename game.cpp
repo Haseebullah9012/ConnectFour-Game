@@ -3,6 +3,7 @@ using namespace std;
 
 void BoardSize(); //To define the Board-Size
 void Difficulty(); //To define the Difficulty of the Game
+void Player(); //To Assign the Player(s) Marks
 void Docs(); //Print the "How to Play" Docs
 
 void Play(); //The Main Game Sequence
@@ -18,17 +19,16 @@ int r,c; //For Loop-controls Row & Column
 int konnect = 4; //The Default Konnect-Number Goal of the Game
 int k; // For Loop-control Konnect
 
-int a,b; //Player Inputs
-char player, emp = '-'; //Player's & Empty Board's Symbol
-int p = 1; //Player Number (First-Turn = Player 1)
-	
+char player[2], emp = '-'; //Player's & Empty Board's Mark
+int p; //For Loop-control and also Player Number
+
+int a,b; //The Player Inputs, Specific Row & Column
+
 int main()
 {	
 	cout << endl
 		<< "Welcome to the Konnect-Board-Game. Its a Two-Player Turn-based Game. \n"
 		<< "It is Advised to Consult the Readme File, before Playing the Game. \n"
-		<< " The Player 1 is assigned 'X'. \n"
-		<< " The Player 2 is assigned 'O'. \n"
 		<< endl;
 
 	char playAgain;
@@ -38,9 +38,12 @@ int main()
 		do {
 			BoardSize();
 			Difficulty();
-			
+			Player();
+
 			cout << "The Board-Size is " << rows << "x" << cols << ", and "
 				<< "The Konnect-Goal is " << konnect << ". \n"
+				<< "The Player 1's Mark is " << player[1] << ", and "
+				<< "The Player 2's Mark is " << player[2] << ". \n"
 				<< "Is it OK (Y/N): ";
 			cin >> chooseAgain;
 			cout << endl << endl << endl;
@@ -52,7 +55,7 @@ int main()
 
 		cout << "Do You Want to Play Again (Y/N): ";
 		cin >> playAgain;
-		p++; //The Next Player goes for the First Turn
+		p++; //Next Time, the Next Player goes for the First Turn
 		cout << endl << endl << endl;
 	}
 	while(playAgain == 'y' || playAgain == 'Y');
@@ -154,6 +157,28 @@ void Difficulty()
 	cout << endl;
 }
 
+void Player()
+{
+	char playerMark = 'D'; //Default
+	
+	cout << "Customize the Player's Mark (d:default, c:custom): ";
+	cin >> playerMark;
+
+	if (playerMark == 'c' || playerMark == 'C') {
+		for(p=1; p<=2; p++) {
+			cout << "Enter the Custom Identification-Mark for Player " << p << ": ";
+			cin >> player[p]; //player[0] is Empty
+		}
+	}
+	else {
+		cout << "The Player(s) Marks are Set to Default 'X' and 'O'. \n";
+		player[1] = 'X', player[2] = 'O';
+	}
+	
+	p = 1; //First-Turn for Player 1
+	cout << endl;
+}
+
 void Docs()
 {
 	cout << "So, Lets Begin! \n\n";
@@ -177,9 +202,9 @@ void Play()
 	while (true) {
 		
 		if(p%2 == 1)
-			player = 'X', p = 1;
+			p = 1;
 		else
-			player = 'O', p = 2;
+			p = 2;
 		
 		cout << "Player " << p << "'s Turn: ";
 		turn();
@@ -211,7 +236,7 @@ void turn()
 	else if (a>=1 && a<=rows && b>=1 && b<=cols) {
 		
 		if (board[a-1][b-1] == emp) {
-			board[a-1][b-1] = player;
+			board[a-1][b-1] = player[p];
 			Board();
 		}
 		else {
@@ -245,25 +270,25 @@ int over()
 		for (c=0; c<cols; c++) {
 			
 			for(k=0; k<=konnect; k++)
-				if (board[r][c+k] != player)
+				if (board[r][c+k] != player[p])
 					break;
 			if(k==konnect)
 				return true; //Horizonatlly
 			
 			for(k=0; k<=konnect; k++)
-				if (board[r+k][c] != player)
+				if (board[r+k][c] != player[p])
 					break;
 			if(k==konnect)
 				return true; //Vertically
 			
 			for(k=0; k<=konnect; k++)
-				if (board[r+k][c+k] != player)
+				if (board[r+k][c+k] != player[p])
 					break;
 			if(k==konnect)
 				return true; //Diagonally-Right
 
 			for(k=0; k<=konnect; k++)
-				if (board[r+k][c-k] != player)
+				if (board[r+k][c-k] != player[p])
 					break;
 			if(k==konnect)
 				return true; //Diagonally-Left
