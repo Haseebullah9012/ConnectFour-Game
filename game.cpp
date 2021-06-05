@@ -31,32 +31,31 @@ int main()
 		<< "It is Advised to Consult the Readme File, before Playing the Game. \n"
 		<< endl;
 
+	char chooseAgain;
+	do {
+		BoardSize();
+		Difficulty();
+		Player();
+
+		cout << "The Board-Size is " << rows << "x" << cols << ", and "
+			<< "The Konnect-Goal is " << konnect << ". \n"
+			<< "The Player 1's Mark is " << player[1] << ", and "
+			<< "The Player 2's Mark is " << player[2] << ". \n"
+			<< "Is it OK (Y/N): ";
+		cin >> chooseAgain;
+		cout << endl << endl << endl;
+	}
+	while(chooseAgain == 'n' || chooseAgain == 'N');
+
 	char playAgain;
 	do {
-		
-		char chooseAgain;
-		do {
-			BoardSize();
-			Difficulty();
-			Player();
-
-			cout << "The Board-Size is " << rows << "x" << cols << ", and "
-				<< "The Konnect-Goal is " << konnect << ". \n"
-				<< "The Player 1's Mark is " << player[1] << ", and "
-				<< "The Player 2's Mark is " << player[2] << ". \n"
-				<< "Is it OK (Y/N): ";
-			cin >> chooseAgain;
-			cout << endl << endl << endl;
-		}
-		while(chooseAgain == 'n' || chooseAgain == 'N');
-
 		Docs();
 		Play();
 
 		cout << "Do You Want to Play Again (Y/N): ";
 		cin >> playAgain;
 		p++; //Next Time, the Next Player goes for the First Turn
-		cout << endl << endl << endl;
+		cout << endl << endl;
 	}
 	while(playAgain == 'y' || playAgain == 'Y');
 	
@@ -71,39 +70,49 @@ void BoardSize()
 	cout << "Choose the Board-Size (s:small, m:medium, l:large, c:custom): ";
 	cin >> board_size;
 
-	if (board_size == 's' || board_size == 'S')
-		rows = size_sm, cols = size_sm; 
-	else if (board_size == 'm' || board_size == 'M')
-		rows = size_md, cols = size_md; 
-	else if (board_size == 'l' || board_size == 'L')
-		rows = size_lg, cols = size_lg;
-	
-	else if (board_size == 'c' || board_size == 'C') {
-		cout << "Enter the Custom Total Rows and Columns of the Board: ";
-		cin >> rows >> cols;
+	switch (board_size) 
+	{
+		case 's':
+		case 'S':
+			rows = size_sm, cols = size_sm; 
+			break;
+		case 'm':
+		case 'M':
+			rows = size_md, cols = size_md; 
+			break;
+		case 'l':
+		case 'L':
+			rows = size_lg, cols = size_lg;
+			break;
 		
-		if (cin.fail()) {
-			cin.clear();cin.ignore();
-			cout << "Oops! Its not the legal Row-Column Numbers. \n\n";
-			cout << "Again, ";
-			BoardSize();
-		}
-		else if (!(rows >=2 && cols >=2)) {
-			cout << "Oops! It's too Small to be a Board. \n\n";
-			cout << "Again, ";
-			BoardSize();
-		}
-		else if (!(rows <=20 && cols <=20)) {
-			cout << "Oops! It's too Large to be a Board. \n\n";
-			cout << "Again, ";
-			BoardSize();
-		}
+		case 'c':
+		case 'C':
+			cout << "Enter the Custom Total Rows and Columns of the Board: ";
+			cin >> rows >> cols;
+			
+			if (cin.fail()) {
+				cin.clear();cin.ignore();
+				cout << "Oops! Its not the legal Row-Column Numbers. \n\n";
+				cout << "Again, ";
+				BoardSize();
+			}
+			else if (!(rows >=2 && cols >=2)) {
+				cout << "Oops! It's too Small to be a Board. \n\n";
+				cout << "Again, ";
+				BoardSize();
+			}
+			else if (!(rows <=20 && cols <=20)) {
+				cout << "Oops! It's too Large to be a Board. \n\n";
+				cout << "Again, ";
+				BoardSize();
+			}
+			break;
+		
+		default:
+			cout << "The Board-Size is Set to Default 7x7. \n";
+			rows = 7, cols = 7;
 	}
-	else {
-		cout << "The Board-Size is Set to Default 7x7. \n";
-		rows = 7, cols = 7;
-	}
-	
+
 	cout << endl;
 }
 
@@ -115,39 +124,49 @@ void Difficulty()
 	cout << "Choose the Game-Difficulty (e:easy, i:intermediate, h:hard, c:custom): ";
 	cin >> difficulty;
 
-	if (difficulty == 'e' || difficulty == 'E')
-		konnect = easy;
-	else if (difficulty == 'i' || difficulty == 'I')
-		konnect = inter;
-	else if (difficulty == 'h' || difficulty == 'H')
-		konnect = hard;
-	
-	else if (difficulty == 'c' || difficulty == 'C') {
-		cout << "Enter the Custom Konnect-Number Goal of the Game: ";
-		cin >> konnect;
+	switch (difficulty) 
+	{
+		case 'e':
+		case 'E':
+			konnect = easy;
+			break;
+		case 'i':
+		case 'I':
+			konnect = inter;
+			break;
+		case 'h':
+		case 'H':
+			konnect = hard;
+			break;
 		
-		if (cin.fail()) {
-			cin.clear(); cin.ignore();
-			cout << "Oops! Its not the legal Konnect-Goal Number. \n\n";
-			cout << "Again, ";
-			Difficulty();
-		}
-		else if (!(konnect>=2)) {
-			cout << "Oops! It's too Easy to be a Game. \n\n";
-			cout << "Again, ";
-			Difficulty();
-		}
-		else if (!(konnect<=20)) {
-			cout << "Oops! It's too Difficult to be a Game. \n\n";
-			cout << "Again, ";
-			Difficulty();
-		}
+		case 'c':
+		case 'C':
+			cout << "Enter the Custom Konnect-Number Goal of the Game: ";
+			cin >> konnect;
+			
+			if (cin.fail()) {
+				cin.clear(); cin.ignore();
+				cout << "Oops! Its not the legal Konnect-Goal Number. \n\n";
+				cout << "Again, ";
+				Difficulty();
+			}
+			else if (!(konnect>=2)) {
+				cout << "Oops! It's too Easy to be a Game. \n\n";
+				cout << "Again, ";
+				Difficulty();
+			}
+			else if (!(konnect<=20)) {
+				cout << "Oops! It's too Difficult to be a Game. \n\n";
+				cout << "Again, ";
+				Difficulty();
+			}
+			break;
+		
+		default:
+			cout << "The Konnect-Goal Difficulty is Set to Default 4. \n";
+			konnect = 4;
 	}
-	else {
-		cout << "The Konnect-Goal Difficulty is Set to Default 4. \n";
-		konnect = 4;
-	}
-	
+
 	if(konnect > rows && konnect > cols) {
 		cout << "Oops! It isn't Possible to Complete this Goal on that Small Board Size. \n";
 		cout << "Choose Again! \n\n";
@@ -164,17 +183,21 @@ void Player()
 	cout << "Customize the Player's Mark (d:default, c:custom): ";
 	cin >> playerMark;
 
-	if (playerMark == 'c' || playerMark == 'C') {
-		for(p=1; p<=2; p++) {
-			cout << "Enter the Custom Identification-Mark for Player " << p << ": ";
-			cin >> player[p]; //player[0] is Empty
-		}
+	switch (playerMark) 
+	{
+		case 'c':
+		case 'C':
+			for(p=1; p<=2; p++) {
+				cout << "Enter the Custom Identification-Mark for Player " << p << ": ";
+				cin >> player[p]; //player[0] is Empty
+			}
+			break;
+		
+		default:
+			cout << "The Player(s) Marks are Set to Default 'X' and 'O'. \n";
+			player[1] = 'X', player[2] = 'O';
 	}
-	else {
-		cout << "The Player(s) Marks are Set to Default 'X' and 'O'. \n";
-		player[1] = 'X', player[2] = 'O';
-	}
-	
+
 	p = 1; //First-Turn for Player 1
 	cout << endl;
 }
@@ -300,11 +323,9 @@ int over()
 
 int draw()
 {
-	for (r=0; r<rows; r++) {
-		for (c=0; c<cols; c++) {
+	for (r=0; r<rows; r++)
+		for (c=0; c<cols; c++)
 			if (board[r][c] == emp) //false if even one space is empty
 				return false;
-		}
-	}	
 	return true;
 }
