@@ -1,16 +1,19 @@
 #include <iostream>
 using namespace std;
 
+void configuration(); //The Game's Configuration Options
 void BoardSize(); //To define the Board-Size
 void Difficulty(); //To define the Difficulty of the Game
 void Player(); //To Assign the Player(s) Marks
-void Docs(); //Print the "How to Play" Docs
 
+void Docs(); //Print the "How to Play" Docs
 void Play(); //The Main Game Sequence
 void turn(); //Player's Turn
 void Board(); //Print the Whole Board
 int over(); //Check if anybody Won and Completed the Konnect-Goal
 int draw(); //Check if the Board fills-out
+
+char configure = 'N'; //Default
 
 char board[20][20]; //The Game Board
 int rows = 7, cols = 7 ; //Total Default Rows and Columns of the Board
@@ -19,7 +22,8 @@ int r,c; //For Loop-controls Row & Column
 int konnect = 4; //The Default Konnect-Number Goal of the Game
 int k; // For Loop-control Konnect
 
-char player[2], emp = '-'; //Player's & Empty Board's Mark
+char emp = '-'; //Empty Board's Mark
+char player[3] = {emp,'X','O'}; //The Player's Default Marks
 int p; //For Loop-control and also Player Number
 
 int a,b; //The Player Inputs, Specific Row & Column
@@ -28,38 +32,56 @@ int main()
 {	
 	cout << endl
 		<< "Welcome to the Konnect-Board-Game. Its a Two-Player Turn-based Game. \n"
-		<< "It is Advised to Consult the Readme File, before Playing the Game. \n"
+		<< "You are Advised to Consult the Readme File, before Playing the Game. \n"
 		<< endl;
 
-	char chooseAgain;
-	do {
-		BoardSize();
-		Difficulty();
-		Player();
-
-		cout << "The Board-Size is " << rows << "x" << cols << ", and "
-			<< "The Konnect-Goal is " << konnect << ". \n"
-			<< "The Player 1's Mark is " << player[1] << ", and "
-			<< "The Player 2's Mark is " << player[2] << ". \n"
-			<< "Is it OK (Y/N): ";
-		cin >> chooseAgain;
-		cout << endl << endl << endl;
-	}
-	while(chooseAgain == 'n' || chooseAgain == 'N');
+	configuration();
 
 	char playAgain;
-	do {
+	do {	
 		Docs();
 		Play();
 
 		cout << "Do You Want to Play Again (Y/N): ";
 		cin >> playAgain;
-		p++; //Next Time, the Next Player goes for the First Turn
-		cout << endl << endl;
+		
+		if(playAgain == 'y' || playAgain == 'Y') {
+			cout << "Do You Want to Configure the Options (Y/N): ";	
+			cin >> configure;
+			cout << endl << endl;
+			
+			if(configure == 'y' || configure == 'Y') {
+				configuration();
+			}
+			
+			p++; //Next Time, the Next Player goes for the First Turn
+		}
 	}
 	while(playAgain == 'y' || playAgain == 'Y');
 	
+	cout << endl << endl;
 	return 0;
+}
+
+void configuration() {
+	do {	
+		if(configure == 'y' || configure == 'Y') {
+			BoardSize();
+			Difficulty();
+			Player();
+		}
+		
+		cout << "The Board-Size is (" << rows << "x" << cols << "), and "
+			<< "The Konnect-Goal is to Occupy " << konnect << " Places. \n"
+			<< "The Player 1's Mark is '" << player[1] << "', and "
+			<< "The Player 2's Mark is '" << player[2] << "'. \n"
+			<< "Do you want to Configure them (Y/N): ";
+		cin >> configure;
+		
+		p = 1; //First-Turn for Player 1
+		cout << endl << endl;
+	}
+	while(configure == 'y' || configure == 'Y');	
 }
 
 void BoardSize()
@@ -180,27 +202,19 @@ void Player()
 {
 	char playerMark = 'D'; //Default
 	
-	cout << "Customize the Player's Mark (d:default, c:custom): ";
+	cout << "Do you Want to Customize the Player's Mark (Y/N): ";
 	cin >> playerMark;
 
-	switch (playerMark) 
-	{
-		case 'c':
-		case 'C':
-			for(p=1; p<=2; p++) {
-				cout << "Enter the Custom Identification-Mark for Player " << p << ": ";
-				cin >> player[p]; //player[0] is Empty
-			}
-			break;
-		
-		default:
-			cout << "The Player(s) Marks are Set to Default 'X' and 'O'. \n";
-			player[1] = 'X', player[2] = 'O';
+	if(playerMark == 'y' || playerMark == 'Y') {
+		for(p=1; p<3; p++) {
+			cout << "Enter the Custom Identification-Mark for Player " << p << ": ";
+			cin >> player[p]; //player[0] is Empty
+		}
 	}
-
-	p = 1; //First-Turn for Player 1
+	
 	cout << endl;
 }
+
 
 void Docs()
 {
@@ -218,7 +232,6 @@ void Docs()
 	}
 	cout << endl;
 }		
-
 
 void Play()
 {
