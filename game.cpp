@@ -24,10 +24,11 @@ int konnect = 4; //The Default Konnect-Number Goal of the Game
 int k; // For Loop-control Konnect
 
 char emp = '-'; //Empty Board's Mark
+int players = 2 +1; //Total Default Number of Players + 1
 char player[3] = {emp,'X','O'}; //The Player's Default Marks
 int p; //For Loop-control and also Player Number
 
-int a,b; //The Player Inputs, Specific Row & Column
+int a,b; //The Player Inputs, for Specific Row & Column
 
 int main()
 {	
@@ -59,7 +60,7 @@ int main()
 				configuration();
 			}
 			
-			p++; //Next Time, the Next Player goes for the First Turn
+			p = rand() % 4 + 1; //Next Time, the Random Player goes for the First Turn
 		}
 	}
 	while(playAgain == 'Y');
@@ -76,11 +77,14 @@ void configuration() {
 			Player();
 		}
 		
-		cout << "The Board-Size is (" << rows << "x" << cols << "), and "
-			<< "The Konnect-Goal is to Occupy " << konnect << " Consecutive Places. \n"
-			<< "The Player 1's Mark is '" << player[1] << "', and "
-			<< "The Player 2's Mark is '" << player[2] << "'. \n"
-			<< "   Do you want to Configure them (Y/N): ";
+		cout << "The Board-Size is (" << rows << "x" << cols << "). \n"
+			<< "The Konnect-Goal is to Occupy " << konnect << " Consecutive Places. \n";
+		
+		for(p=1; p<players; p++)
+			cout << " The Player " << p << "'s Mark is '" << player[p] << "'. \n";
+		
+		cout << "   Do you want to Configure them (Y/N): ";
+		
 		cin >> configure;
 		configure = toupper(configure);
 		cin.ignore(max_cIgnore, '\n');
@@ -116,14 +120,15 @@ void BoardSize()
 		case 'C':
 			cout << "   Enter the Custom Total Rows and Columns of the Board: ";
 			cin >> rows >> cols;
+			cin.ignore(max_cIgnore,'\n');
 			
 			if (cin.fail()) {
-				cin.clear();cin.ignore(max_cIgnore,'\n');
+				cin.clear(); cin.ignore(max_cIgnore,'\n');
 				cout << "   Oops! Its not the legal Row-Column Numbers. \n\n";
 				cout << "Again, ";
 				BoardSize();
 			}
-			else if (!(rows >=2 && cols >=2)) {
+			else if (!(rows>=2 && cols>=2)) {
 				cout << "   Oops! It's too Small to be a Board. \n\n";
 				cout << "Again, ";
 				BoardSize();
@@ -133,14 +138,12 @@ void BoardSize()
 				cout << "Again, ";
 				BoardSize();
 			}
-			cin.ignore(max_cIgnore,'\n');
 			break;
 		
 		default:
 			cout << "The Board-Size is Set to Default 7x7. \n";
 			rows = 7, cols = 7;
 	}
-
 	cout << endl;
 }
 
@@ -169,6 +172,7 @@ void Difficulty()
 		case 'C':
 			cout << "   Enter the Custom Konnect-Number Goal of the Game: ";
 			cin >> konnect;
+			cin.ignore(max_cIgnore,'\n');
 			
 			if (cin.fail()) {
 				cin.clear(); cin.ignore(max_cIgnore, '\n');
@@ -186,7 +190,6 @@ void Difficulty()
 				cout << "Again, ";
 				Difficulty();
 			}
-			cin.ignore(max_cIgnore,'\n');
 			break;
 		
 		default:
@@ -199,25 +202,54 @@ void Difficulty()
 		cout << "Choose Again! \n\n";
 		Difficulty();
 	}
-
 	cout << endl;
 }
 
 void Player()
 {
-	char playerMark = 'D'; //Default
+	cout << "How Many Players are there to Play: ";
+	cin >> players;
+	cin.ignore(max_cIgnore, '\n');
+	players++;
+
+	if (cin.fail()) {
+		cin.clear();cin.ignore(max_cIgnore,'\n');
+		cout << "It's Set to Default 2-Player. \n";
+		players = 2 +1;
+	}
+	else if (!(players-1>=2)) {
+		cout << "   Oops! It's too Less Players to Play a Game. \n\n";
+		cout << "Again, ";
+		Player();
+	}
+	else if (!(players-1<=4)) {
+		cout << "   Oops! It's too Many Players. \n\n";
+		cout << "Again, ";
+		Player();
+	}
+	cout << endl;
 	
+	char customMark = 'D'; //Default
 	cout << "Do you Want to Customize the Player's Mark (Y/N): ";
-	cin >> playerMark;
-	playerMark = toupper(playerMark);
+	cin >> customMark;
+	customMark = toupper(customMark);
 	cin.ignore(max_cIgnore, '\n');
 
-	if(playerMark == 'Y') {
-		for(p=1; p<3; p++) {
+	if(customMark == 'Y') {
+		for(p=1; p<players; p++) {
 			cout << "   Enter the Custom Identification-Mark for Player " << p << ": ";
 			cin >> player[p]; //player[0] is Empty
 			cin.ignore(max_cIgnore, '\n');
 		}
+	}
+	else {
+		cout << "The Player Marks are Set to Default. \n";
+		player[1] = 'X', player[2] = 'O';
+		
+		if(players-1 >= 3)
+			player[3] = 'I';
+		if(players-1 >= 4)
+			player[4] = 'H';
 	}
 	
 	cout << endl;
@@ -245,11 +277,36 @@ void Play()
 {
 	while (true) {
 		
-		if(p%2 == 1)
-			p = 1;
-		else
-			p = 2;
-		
+		switch(players-1) 
+		{
+			case 2:
+				if(p%(players-1) == 1)
+					p = 1;
+				else
+					p = 2;
+				break;
+
+			case 3:
+				if(p%(players-1) == 1)
+					p = 1;
+				else if(p%(players-1) == 2)
+					p = 2;
+				else
+					p = 3;
+				break;
+
+			case 4:
+				if(p%(players-1) == 1)
+					p = 1;
+				else if(p%(players-1) == 2)
+					p = 2;
+				else if(p%(players-1) == 3)
+					p = 3;
+				else
+					p = 4;
+				break;
+		}
+
 		cout << "Player " << p << "'s Turn: ";
 		turn();
 		
