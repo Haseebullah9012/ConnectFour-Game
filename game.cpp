@@ -13,9 +13,10 @@ void Board(); //Print the Whole Board
 int over(); //Check if anybody Won and Completed the Konnect-Goal
 int draw(); //Check if the Board fills-out
 
-char configure = 'N'; //Default
+char configure = 'N'; //The Default Configuration Options Display
+int max_cIgnore = 30; //MaxCharacters to be Ignored in the Buffer
 
-char board[20][20]; //The Game Board
+char board[30][30]; //The Game Board
 int rows = 7, cols = 7 ; //Total Default Rows and Columns of the Board
 int r,c; //For Loop-controls Row & Column
 
@@ -44,20 +45,24 @@ int main()
 
 		cout << "Do You Want to Play Again (Y/N): ";
 		cin >> playAgain;
-		
-		if(playAgain == 'y' || playAgain == 'Y') {
+		playAgain = toupper(playAgain);
+		cin.ignore(max_cIgnore, '\n');
+
+		if(playAgain == 'Y') {
 			cout << "Do You Want to Configure the Options (Y/N): ";	
 			cin >> configure;
-			cout << endl << endl;
+			configure = toupper(configure);
+			cin.ignore(max_cIgnore, '\n');
 			
-			if(configure == 'y' || configure == 'Y') {
+			cout << endl << endl;
+			if(configure == 'Y') {
 				configuration();
 			}
 			
 			p++; //Next Time, the Next Player goes for the First Turn
 		}
 	}
-	while(playAgain == 'y' || playAgain == 'Y');
+	while(playAgain == 'Y');
 	
 	cout << endl << endl;
 	return 0;
@@ -65,23 +70,25 @@ int main()
 
 void configuration() {
 	do {	
-		if(configure == 'y' || configure == 'Y') {
+		if(configure == 'Y') {
 			BoardSize();
 			Difficulty();
 			Player();
 		}
 		
 		cout << "The Board-Size is (" << rows << "x" << cols << "), and "
-			<< "The Konnect-Goal is to Occupy " << konnect << " Places. \n"
+			<< "The Konnect-Goal is to Occupy " << konnect << " Consecutive Places. \n"
 			<< "The Player 1's Mark is '" << player[1] << "', and "
 			<< "The Player 2's Mark is '" << player[2] << "'. \n"
-			<< "Do you want to Configure them (Y/N): ";
+			<< "   Do you want to Configure them (Y/N): ";
 		cin >> configure;
+		configure = toupper(configure);
+		cin.ignore(max_cIgnore, '\n');
 		
 		p = 1; //First-Turn for Player 1
 		cout << endl << endl;
 	}
-	while(configure == 'y' || configure == 'Y');	
+	while(configure == 'Y');
 }
 
 void BoardSize()
@@ -91,43 +98,42 @@ void BoardSize()
 	
 	cout << "Choose the Board-Size (s:small, m:medium, l:large, c:custom): ";
 	cin >> board_size;
+	board_size = toupper(board_size);
+	cin.ignore(max_cIgnore, '\n');
 
 	switch (board_size) 
 	{
-		case 's':
 		case 'S':
 			rows = size_sm, cols = size_sm; 
 			break;
-		case 'm':
 		case 'M':
 			rows = size_md, cols = size_md; 
 			break;
-		case 'l':
 		case 'L':
 			rows = size_lg, cols = size_lg;
 			break;
 		
-		case 'c':
 		case 'C':
-			cout << "Enter the Custom Total Rows and Columns of the Board: ";
+			cout << "   Enter the Custom Total Rows and Columns of the Board: ";
 			cin >> rows >> cols;
 			
 			if (cin.fail()) {
-				cin.clear();cin.ignore();
-				cout << "Oops! Its not the legal Row-Column Numbers. \n\n";
+				cin.clear();cin.ignore(max_cIgnore,'\n');
+				cout << "   Oops! Its not the legal Row-Column Numbers. \n\n";
 				cout << "Again, ";
 				BoardSize();
 			}
 			else if (!(rows >=2 && cols >=2)) {
-				cout << "Oops! It's too Small to be a Board. \n\n";
+				cout << "   Oops! It's too Small to be a Board. \n\n";
 				cout << "Again, ";
 				BoardSize();
 			}
-			else if (!(rows <=20 && cols <=20)) {
-				cout << "Oops! It's too Large to be a Board. \n\n";
+			else if (!(rows<=30 && cols<=30)) {
+				cout << "   Oops! It's too Large to be a Board. \n\n";
 				cout << "Again, ";
 				BoardSize();
 			}
+			cin.ignore(max_cIgnore,'\n');
 			break;
 		
 		default:
@@ -145,43 +151,42 @@ void Difficulty()
 	
 	cout << "Choose the Game-Difficulty (e:easy, i:intermediate, h:hard, c:custom): ";
 	cin >> difficulty;
+	difficulty = toupper(difficulty);
+	cin.ignore(max_cIgnore, '\n');
 
 	switch (difficulty) 
 	{
-		case 'e':
 		case 'E':
 			konnect = easy;
 			break;
-		case 'i':
 		case 'I':
 			konnect = inter;
 			break;
-		case 'h':
 		case 'H':
 			konnect = hard;
 			break;
 		
-		case 'c':
 		case 'C':
-			cout << "Enter the Custom Konnect-Number Goal of the Game: ";
+			cout << "   Enter the Custom Konnect-Number Goal of the Game: ";
 			cin >> konnect;
 			
 			if (cin.fail()) {
-				cin.clear(); cin.ignore();
-				cout << "Oops! Its not the legal Konnect-Goal Number. \n\n";
+				cin.clear(); cin.ignore(max_cIgnore, '\n');
+				cout << "   Oops! Its not the legal Konnect-Goal Number. \n\n";
 				cout << "Again, ";
 				Difficulty();
 			}
 			else if (!(konnect>=2)) {
-				cout << "Oops! It's too Easy to be a Game. \n\n";
+				cout << "   Oops! It's too Easy to be a Game. \n\n";
 				cout << "Again, ";
 				Difficulty();
 			}
-			else if (!(konnect<=20)) {
-				cout << "Oops! It's too Difficult to be a Game. \n\n";
+			else if (!(konnect<=30)) {
+				cout << "   Oops! It's too Difficult to be a Game. \n\n";
 				cout << "Again, ";
 				Difficulty();
 			}
+			cin.ignore(max_cIgnore,'\n');
 			break;
 		
 		default:
@@ -204,11 +209,14 @@ void Player()
 	
 	cout << "Do you Want to Customize the Player's Mark (Y/N): ";
 	cin >> playerMark;
+	playerMark = toupper(playerMark);
+	cin.ignore(max_cIgnore, '\n');
 
-	if(playerMark == 'y' || playerMark == 'Y') {
+	if(playerMark == 'Y') {
 		for(p=1; p<3; p++) {
-			cout << "Enter the Custom Identification-Mark for Player " << p << ": ";
+			cout << "   Enter the Custom Identification-Mark for Player " << p << ": ";
 			cin >> player[p]; //player[0] is Empty
+			cin.ignore(max_cIgnore, '\n');
 		}
 	}
 	
@@ -263,7 +271,7 @@ void turn()
 	cin >> a >> b;
 	
 	if (cin.fail()) {
-		cin.clear(); cin.ignore();
+		cin.clear(); cin.ignore(max_cIgnore, '\n');
 		cout << "Oops! Its not Legal. \n"
 			<< "Pick Again, (Rows 1 to " << rows << ") & "
 						<< "(Columns 1 to " << cols << "): ";
@@ -273,10 +281,12 @@ void turn()
 		
 		if (board[a-1][b-1] == emp) {
 			board[a-1][b-1] = player[p];
+			cin.ignore(max_cIgnore,'\n');
 			Board();
 		}
 		else {
 			cout << "Its already Occupied, Pick Somewhere else: ";
+			cin.ignore(max_cIgnore,'\n');
 			turn();
 		}
 	}
@@ -284,6 +294,7 @@ void turn()
 		cout << "Oops! Its Outside the Board. \n"
 			<< "Pick Again, (Rows 1 to " << rows << ") & "
 						<< "(Columns 1 to " << cols << "): ";
+		cin.ignore(max_cIgnore,'\n');
 		turn();
 	}
 }

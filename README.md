@@ -10,13 +10,13 @@ Its a Simple 2-Player Turn-based Board Game. (Version 3)
         The given Predefined Board Sizes are, (Small:6x6, Medium:8x8, Large:10x10, Default:7x7). 
         
         - You can Enter your own Custom Size, by entering the _Total Rows and Columns_ of the Board. 
-          The Range of Custom Row-Column can be 2x2 to 20x20. 
+          The Range of Custom Row-Column can be 2x2 to 30x30. 
                 
       - Enter the **Game Difficulty** from the predefined Difficulties: _Easy, Intermediate, Hard, or even Custom_. 
         The given Predefined Difficulties are to Occupy (Easy:3, Intermediate:5, Hard:6, Default:4) Consecutive Places. 
         
         - You can Enter your own Custom Difficulty, by entering the _Total Konnect-Goal_ Number. 
-          The Range of Custom Konnect Goal can be 2 to 20. 
+          The Range of Custom Konnect Goal can be 2 to 30. 
       
       - If you want, Customize the **Player Marks**. 
         The Default Player's Symbols are 'X' and 'O'. 
@@ -34,7 +34,7 @@ Its a Simple 2-Player Turn-based Board Game. (Version 3)
    4. After Game Completion, You can **Play it Again**! 
 
 
-### Hints:
+#### Hints:
    * Customize the Board-Size:(3x3), Konnect-Goal:3, to make it the Classical **_Tic-Tac-Toe_** Game. 
    * Customize the Board-Size:(7x7), Konnect-Goal:4, to make it the classical **_Connect-4_** Game. 
 
