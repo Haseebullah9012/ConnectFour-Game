@@ -14,7 +14,7 @@ int draw(); //Check if the Board fills-out
 void PlayAgain(); //The PlayAgain Option
 
 char configure = 'N'; //The Default Configuration Options 
-int max_cIgnore = 30; //MaxCharacters to be Ignored in the Buffer
+int max_cIgnore = 255; //MaxCharacters to be Ignored in the Buffer
 char playAgain = 'Y'; //The Default PlayAgain Option
 
 char board[30][30]; //The Game Board
