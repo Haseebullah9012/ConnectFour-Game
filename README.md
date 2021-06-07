@@ -16,10 +16,10 @@ Its a Simple Turn-based Board Game. (Version 3)
         The given Predefined Difficulties are to Occupy (Easy:3, Intermediate:5, Hard:6, Default:4) Consecutive Places. 
         
         - You can Enter your own Custom Difficulty, by entering the _Total Konnect-Goal_ Number. 
-          The Custom Range of Konnect Goal can be 2 to 30. 
+          The Custom Range of Konnect Goal can be 2 to 12. 
       
       - Enter the Total Nummber of Players who wants to Play the Game. By Default, Its 2-Player.
-        The Custom Range of Players can be 2 to 4. 
+        The Custom Range of Players can be 2 to 8. 
 
       - If you want, Customize the **Player Marks**. 
         The Default Player's Symbols are 'X' and 'O'. 
