@@ -25,16 +25,16 @@ int konnect = 4; //The Default Konnect-Number Goal of the Game
 int k; // For Loop-control Konnect
 
 char emp = '-'; //Empty Board's Mark
-char player[8 +1] = {emp,'X','O','I','H','E','V','Z','M'}; //The Player's Default Marks
+char player[8 +1] = {emp, 'X','O','I','H','E','V','Z','M'}; //The Player's Default Marks
 int players = 2 +1; //Total Default Number of Players + 1
 int p; //For Loop-control and also Player Number
 
 int a,b; //The Player Inputs, for Specific Row & Column
 
 int main()
-{	
+{
 	cout << endl
-		<< "Welcome to the Konnect-Board-Game. Its a Two-Player Turn-based Game. \n"
+		<< "Welcome to the Konnect-Board-Game. A Turn-based Game. \n"
 		<< "You are Advised to Consult the Readme File, before Playing the Game. \n"
 		<< endl;
 
@@ -198,7 +198,6 @@ void Difficulty()
 		cout << "Choose the Board-Size Again! \n\n";
 		configuration();
 	}
-	
 	cout << endl; //It would be Buffered each Time Function Self-Calls
 }
 
@@ -213,9 +212,10 @@ void Player()
 		if (cin.fail()) {
 			cin.clear();cin.ignore(max_cIgnore,'\n');
 			cout << "It's Set to Default 2-Player. \n";
-			players = 2 +1;
+			players = 3;
+			break;
 		}
-		else if (!(players-1>=2)) {
+		else if (!(players-1>=2)) { 
 			cout << "   Oops! It's too Less Players to Play a Game. \n\n";
 			cout << "Again, ";
 			continue;
@@ -257,9 +257,9 @@ void Game()
 	while (true) {
 		
 		if(!(p <= players-1)) {
-			p = 1;
+			p = 1; //Reset the Player Number
 		}
-		
+
 		cout << "Player " << p << "'s Turn: ";
 		turn();
 		
@@ -280,8 +280,8 @@ void turn()
 {
 	cin >> a >> b;
 	cin.ignore(max_cIgnore,'\n');
-			
-	if (cin.fail()) {
+	
+	if(cin.fail()) {
 		cin.clear(); cin.ignore(max_cIgnore, '\n');
 		cout << "Oops! Its not Legal. \n"
 			<< "Pick Again, (Rows 1 to " << rows << ") & "
@@ -290,7 +290,7 @@ void turn()
 	}
 	else if (a>=1 && a<=rows && b>=1 && b<=cols) {
 		
-		if (board[a-1][b-1] == emp) {
+		if(board[a-1][b-1] == emp) {
 			board[a-1][b-1] = player[p];
 			Board();
 		}
