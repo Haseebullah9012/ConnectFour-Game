@@ -1,0 +1,140 @@
+
+#docs {
+    font-size: 22px;
+    text-align: center;
+}
+#docs a {
+    color: teal;
+    text-decoration: none;
+}
+#docs a:hover {
+    color: rgb(100, 180, 180);
+    box-shadow: 0 2px 1px rgb(40, 180, 180);
+}
+
+.configure-text {
+    font-size: 25px;
+    border-top: 2px solid teal;
+    margin: auto;
+    padding: 14px;
+    width: 350px;
+    margin-bottom: 10px;
+}
+
+#Configure {
+    text-align: center;
+    margin: auto;
+    position: relative;
+    right: 80px;
+    width: 500px;
+}
+#Configure label {
+    min-width: 200px;
+    display: inline-block;
+    text-align: right;
+    font-size: 22px;
+    margin-right: 10px;
+    margin-bottom: 16px;
+}
+#Configure label:last-of-type {
+    margin-bottom: 24px;
+}
+#Configure input {
+    font-size: 20px;
+    width: 50px;
+    height: 40px;
+    text-align: center;
+    border-radius: 50%;
+}
+input:invalid, input.invalid {
+    background-color: tomato;
+}
+
+
+.tooltip {
+    visibility: hidden;
+    opacity: 0;
+    
+    background-color: wheat;
+    color: #000;
+    font-size: small;
+    border-radius: 6px;
+    padding: 6px;
+    
+    position: relative;
+    bottom: 100%;
+    margin-left: -80px;
+    transition: opacity 0.5s;
+}
+.tooltip::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent transparent wheat;
+}
+label:hover {
+    cursor: help;
+}
+label:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+
+
+#play, #newGame {
+    width: 150px;
+    height: 50px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 25px;
+    display: block;
+    margin: 20px auto;
+}
+#newGame.big {
+    background-color: rgb(10, 150, 50);
+    color: whitesmoke;
+    width: 200px;
+    height: 70px;
+    font-size: 25px;
+    border-radius: 50px; 
+}
+
+#info {
+    font-size: 24px;
+    text-align: center;
+}
+#info.large {
+    font-size: 40px;
+}
+
+
+#game-container {
+    text-align: center;
+    margin: auto;
+    width: 155px; /*Default Width Height*/
+    height: 153px;
+}
+.square {
+    background-color: steelblue;
+    color: #000;
+    vertical-align: middle;
+    font-size: 30px;
+    border-radius: 6%;
+    width: 50px; /*Default Width Height*/
+    height: 50px;
+}
+.square:hover {
+    color: red;
+    background-color: rgb(40, 25, 80);
+    cursor: pointer;  
+}
+
+.end {
+    pointer-events: none;
+    opacity: 0.75;
+}
