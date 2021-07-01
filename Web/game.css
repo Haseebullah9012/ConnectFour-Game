@@ -1,3 +1,16 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    font-family: Georgia;
+    background-image: url(Resources/Background.jpg);
+    color: whitesmoke;
+}
+
+h2 {
+    text-align: center;
+    font-size: 48px;
+}
 
 #docs {
     font-size: 22px;
@@ -137,4 +150,19 @@ label:hover .tooltip {
 .end {
     pointer-events: none;
     opacity: 0.75;
+}
+
+
+#Speaker-Icon {
+    display: flex;
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    z-index: 10;
+}
+#SpeakerMuted-Icon{
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    z-index: 10;
 }

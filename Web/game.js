@@ -1,7 +1,7 @@
 
+/* In Development */
 // Player Symbol Customization Feature
-// setBoard Dimensions() Update
-// My Details on Exit Feature
+// Details onExit 
 // Predefined Game Modes
 
 
@@ -34,15 +34,29 @@ var newGame = document.getElementById("newGame"); //The New Game Button
 var Info = document.getElementById("info"); //The Player Info Text
 var GameContainer = document.getElementById("game-container"); //The Board-Game Container
 
+var Speaker = document.getElementById("SpeakerIcon"); //Background Music is Playing
+var SpeakerMuted = document.getElementById("SpeakerMuted-Icon"); //Background Music is Muted
+var Click = document.getElementById("Square-Click"); // The Button-CLick
+var MenuClick = document.getElementById("Menu-Click"); // The Menu Button-CLick
+var GameMusic = document.getElementById("Game-Music"); // The Background Game-Music
+var ConfigureMusic = document.getElementById("Configure-Music"); // The Background Configuration- Music
+
 
 //Starting Element States
 newGame.style.display = "none";
 Info.style.display = "none";
 GameContainer.style.display = "none";
+Speaker.style.display = "none";
+GameMusic.muted = true;
+ConfigureMusic.muted = true;
 
 
 function Play()
 {
+    MenuClick.pause();
+    MenuClick.currentTime = 0; //To Stop if Previous CLick is still Running
+    MenuClick.play();
+
     configuration();
     if(validated == true) {
         Docs.style.display = "none";
@@ -52,11 +66,25 @@ function Play()
         newGame.style.display = "block";
         Info.style.display = "block";
         printBoard();
+
+        GameMusic.play();
+        ConfigureMusic.pause();
+        ConfigureMusic.currentTime = 0; //To Stop Other Music
+        
+        /* Because the Music Don't Load on Startup */
+        if(GameMusic.muted == false && ConfigureMusic.muted == false) {
+            SpeakerMuted.style.display = "none";
+            Speaker.style.display = "block"; 
+        }
     }
 }
 
 function NewGame()
 {
+    MenuClick.pause();
+    MenuClick.currentTime = 0; //To Stop if Previous CLick is still Running
+    MenuClick.play();
+
     resetBoard();
     
     Docs.style.display = "block";
@@ -65,6 +93,10 @@ function NewGame()
     
     newGame.style.display = "none";
     Info.style.display = "none";
+    
+    ConfigureMusic.play();
+    GameMusic.pause();
+    GameMusic.currentTime = 0; //To Stop Other Music
 }
 
 
@@ -86,7 +118,6 @@ function configuration() {
     cols = document.getElementById("Cols").value;
     konnect = document.getElementById("Konnect").value;
     players = document.getElementById("Players").value;
-    players++; //Because the Index 0 of player Symbols-Array is Empty
     p = 1; //Default First Turn
 
     let RowsValid = true;
@@ -131,6 +162,7 @@ function configuration() {
     }
     else {
         PlayersValid = true;
+        players++; //Because the Index 0 of player Symbols-Array is Empty
         document.getElementById("Players").classList.remove("invalid");
     } 
     
@@ -165,8 +197,8 @@ function setBoardDimensions() {
     
     var Board_width, Board_height; //For Board Dimensions
     var Square; //For Square Dimensions
-
-    if(rows>=cols) {
+    
+    if(rows==cols) {
         if(rows==2)
             Square = 160/rows;
         else if(rows==3)
@@ -176,15 +208,28 @@ function setBoardDimensions() {
         else
             Square = 520/rows;
     }
-    else if (cols>=rows){
-        if(cols==2)
-            Square = 160/cols;
-        else if(cols==3)
-            Square = 250/cols;
-        else if(cols==4)
-            Square = 320/cols;
-        else
-            Square = 520/cols;
+    else if(rows<10 && cols<10) {
+        if(rows>cols) {
+            Square = 480/rows;
+        }
+        else {
+            Square = 680/cols;
+        }
+    }
+    else {
+        if(rows>cols) {
+            if(rows==2)
+                Square = 200/rows;
+            else if(rows==3)
+                Square = 280/rows;
+            else if(rows==4)
+                Square = 360/rows;
+            else
+                Square = 440/rows;
+        }
+        else {
+            Square = 560/rows;
+        }
     }
     
     Board_width = Square*cols + 5;
@@ -204,12 +249,16 @@ function setBoardDimensions() {
 
 //On User Inpput
 function turn() {
+    Click.pause();
+    Click.currentTime = 0; //To Stop if Previous Click is still Running
+
     a = parseInt($(this).data('x'));
     b = parseInt($(this).data('y'));
     
     if(board[a][b].textContent == emp) {
         board[a][b].textContent = player[p];
-            
+        Click.play();
+        
         if(over() == true) {
             Info.textContent = "Player " + p + " Won!";
             Info.classList.add("large");
@@ -237,8 +286,6 @@ function turn() {
 
 function over()
 {
-    //Resolved the Bug by Limiting the Rows (r) and Columns (c) to Stay in the Array Board-Size
-    
     for(r=0; r<rows; r++) {
         for(c=0; c<cols-konnect+1; c++) {
         
@@ -294,4 +341,24 @@ function draw()
 			if(board[r][c].textContent == emp) //false if even one space is empty
 				return false;
 	return true;
+}
+
+function MuteMusic()
+{
+    if(GameMusic.muted == true || ConfigureMusic.muted == true) {
+        GameMusic.muted = false;
+        ConfigureMusic.muted = false;
+        SpeakerMuted.style.display = "none";
+        Speaker.style.display = "block";
+    }
+    else {
+        if(GameMusic.muted == false && ConfigureMusic.muted == false) {
+            ConfigureMusic.play();
+        }
+
+        GameMusic.muted = true;
+        ConfigureMusic.muted = true;
+        SpeakerMuted.style.display = "block";
+        Speaker.style.display = "none";
+    }
 }

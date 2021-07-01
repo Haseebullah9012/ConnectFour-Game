@@ -7,9 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Konnect Board Game</title>
-    <link rel="shortcut icon" type="image/png" href="../Resources/Game-TitleIcon.png" />
-    
-    <link rel="stylesheet" href="../Resources/Theme.css">
+    <link rel="shortcut icon" type="image/png" href="Resources/Game-TitleIcon.png" />
     <link rel="stylesheet" href="game.css">
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -19,9 +17,9 @@
 <body>
     
     <div id="docs">
-        <h2 id="Heading">Konnect Board Game</h2>
+        <h2>Konnect Board Game</h2>
         <p>
-            You are Advised to Consult the <a href='#'>Readme File</a>, before Playing the Game. 
+            You are Advised to Consult the <a href="ReadMe.html" target="_blank">Readme File</a>, before Playing the Game. 
         </p>
         <br>
         <p class="configure-text">
@@ -48,9 +46,26 @@
     <p id="info"></p>
     <div id="game-container"></div>
     
+    <span id="Speaker-Icon" onclick="MuteMusic();">
+        <img src="Resources/Speaker-Icon.png" width="50px" height="50px" ></img>
+    </span>
+    <span id="SpeakerMuted-Icon" onclick="MuteMusic();">
+        <img src="Resources/SpeakerMuted-Icon.png" width="50px" height="50px"></img>
+    </span>
+    
+
+    <audio id="Square-Click" src="Resources/ButtonClick.mp3"></audio>
+    <audio id="Menu-Click" src="Resources/Menu-ButtonClick.mp3"></audio>
+
+    <audio id="Game-Music" loop>
+        <source src="Resources/High-Seas.mp3" type="audio/mp3">
+    </audio>
+    <audio id="Configure-Music" loop>
+        <source src="Resources/The-Heist.mp3" type="audio/mp3">
+    </audio>
 
     <script src="game.js"></script>
-    
+
 </body>
 
 </html>
