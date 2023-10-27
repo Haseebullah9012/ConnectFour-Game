@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konnect Board Game</title>
+    <link rel="shortcut icon" type="image/png" href="Resources/Game-TitleIcon.png" />
+    <link rel="stylesheet" href="game.css">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+</head>
+
+<body>
+    
+    <div id="docs">
+        <h2>Konnect Board Game</h2>
+        <p>
+            You are Advised to Consult the <a href="ReadMe.html" target="_blank">Readme File</a>, before Playing the Game. 
+        </p>
+        <br>
+        <p class="configure-text">
+            Configure the Options!
+        </p>
+    </div>
+    
+    <form id="Configure"> 
+        <label for="Rows"><span class="tooltip">From 2 to 12</span> Rows:</label> <input id="Rows" name="Rows" type="text" required> <br>
+        <label for="Cols"><span class="tooltip">From 2 to 12</span> Columns:</label> <input id="Cols" name="Cols" type="text" required> <br>
+        <label for="Konnect"><span class="tooltip">From 2 to 8</span> Konnect-Goal:</label> <input id="Konnect" name="Konnect" type="text" required> <br>
+        <label for="Players"><span class="tooltip">From 2 to 8</span> Players:</label> <input id="Players" name="Players" type="text" required> <br>
+    </form>
+    
+    <div style="border-top: 2px solid teal; width: 350px; margin: auto;"></div>
+    
+    <div>    
+        <button id="play" onclick="Play();">Play</button>
+    </div>
+    <div>    
+        <button id="newGame" onclick="NewGame();">New Game</button>
+    </div>
+    
+    <p id="info"></p>
+    <div id="game-container"></div>
+    
+    <span id="Speaker-Icon" onclick="MuteMusic();">
+        <img src="Resources/Speaker-Icon.png" width="50px" height="50px" ></img>
+    </span>
+    <span id="SpeakerMuted-Icon" onclick="MuteMusic();">
+        <img src="Resources/SpeakerMuted-Icon.png" width="50px" height="50px"></img>
+    </span>
+    
+
+    <audio id="Square-Click" src="Resources/ButtonClick.mp3"></audio>
+    <audio id="Menu-Click" src="Resources/Menu-ButtonClick.mp3"></audio>
+
+    <audio id="Game-Music" loop>
+        <source src="Resources/High-Seas.mp3" type="audio/mp3">
+    </audio>
+    <audio id="Configure-Music" loop>
+        <source src="Resources/The-Heist.mp3" type="audio/mp3">
+    </audio>
+
+    <script src="game.js"></script>
+
+</body>
+
+</html>
